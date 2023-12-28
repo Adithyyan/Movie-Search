@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./film.css">
+    <link rel="stylesheet" href="./style.css">
+    
+</head>
+<body class="bg-black">
+    <div class="container" >
+        <div class="row bg-black">
+        <div class="col-4"></div>
+        <div class="col-4 bg-dark m-3" style="border-radius: 5px;">
+            <div class="title m-3 " >
+                <h1 style="color: white; display:flex; align-items: center; justify-content: center;">Movif<span style="color: aqua;">y</span></h1>
+                <div style="display:flex; align-items: center; justify-content: center;">
+                    <input style="width: 100%; border: 1px solid #ccc; border-radius: 100px; padding: 10px 100px 10px 20px; line-height: 1; box-sizing: border-box; outline: none;" id="inputname" class="ip m-3" type="text" placeholder="Enter The Movie">
+                    <button  onclick="search()"   type="button" class="btn btn-info m-3">search</button>
+                </div>        
+            </div>
+        </div>
+        <div class="col-4 "></div>
+    </div>
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6 bg-dark" id="result" style="border-radius: 10px;">              
+            </div>
+        </div>
+    </div>
+    
+</body>
+<script>
+
+     function search(){
+        let moviename=inputname.value
+        const http =new XMLHttpRequest()
+        http.open('get',`https://www.omdbapi.com/?apikey=fa1c9c03&t=${moviename}`)
+        http.send()
+        http.onreadystatechange=()=>{
+            if(http.readyState==4)
+            {
+                if(http.status>=200 && http.status<300)
+                {
+                    data=JSON.parse(http.responseText)
+                    console.log(data);
+            let cname=data.Title
+            console.log(cname);
+
+            let pic=data.Poster
+            console.log(pic);
+            let rel=data.Released
+            console.log(rel);
+
+            let act=data.Actors
+            console.log(act);
+
+            let plo=data.Plot
+            console.log(plo);
+
+
+            let rat=data.Ratings
+            console.log(rat);
+
+
+
+
+            // rating=data.
+
+
+            result.innerHTML=`
+           <div style="display:flex; align-items: center; justify-content: center; margin-top:20px;">
+             <img class="image1" src=${pic} alt="img">
+           </div>
+          
+                    <h1 class="name">movie name: <span style="color: white; font-size: 30px; display:flex; align-items: center; justify-content: center; margin-bottom: 50px; }">${cname} </span> </h1>
+
+                    <hr style="color: white;">
+
+                    <h1 class="name">Released date: <span style="color : white; font-size: 20px; display:flex; align-items: center; justify-content: center; margin-bottom: 50px; "> ${rel}</span> </h1>
+
+                    <hr style="color: white;">
+
+                    <h1 class="name">actors: <span style="color: white; font-size: 20px; display:flex; align-items: center; justify-content: center; margin-bottom: 50px; ">${act}</span></h1>
+
+                    <hr style="color: white;">
+
+                    <h1 class="name">plot: <span style="color: white; font-size: 20px;"> ${plo}</span></h1>
+
+                    <hr style="color: white;">
+                    
+                    <h1 class="name">Rating: <span style="color: white; font-size: 20px;">
+                        <ul>
+                            ${rat.map((item)=>`<li>${item.Source}</li> <li>${item.Value}</li>`)}
+                            </ul>
+                        </span></h1>
+            
+            `}
+                else
+                {
+                    console.log('no response');
+                }
+
+            }
+            else
+            {
+                console.log('no response');
+
+            }
+        }
+     }
+    
+</script>
+
+
+
+
+
+
+
+
+
+</html>
